@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='channel.js') }}"></script>
+    <title id="channel">{{channel}}</title>
+    <style>
+       .msg_bbl{
+            background-color: #ddd;
+            padding: 5px 10px;
+            border-radius: 10px;
+            color: #555;
+            margin-bottom: 5px;
+       }
+    </style>
+  </head>
+  <body>
+    <div>
+        {% for name, msg in msgs %}
+          <div class="msg_bbl"><b style="color: #000">{{name}}</b> {{msg}}</div>
+          {% endfor %}
+    </div>
+
+
+    <div id="messageholder">
+           
+    </div>
+
+    <div class="col-sm-4">
+        <form action="" id="msgform" class="form" method="POST">
+            <div class="form-group">
+                <label for="message">Messgae</label>
+                <input type="text" class="message form-control" id="message" name="message" placeholder="message">
+              </div>
+              <button type="submit" class="btn btn-success">Send <span class="fas fa-paper-plane"></span></button>
+        </form>
+    </div>
+
+    <div class="form-group col-sm-1">
+      <button id="leave" type="button" class="btn btn-warning">Leave channel</button>
+  </div>
+
+  </body>
+</html>

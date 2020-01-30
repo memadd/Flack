@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Flack-sign</title>
+
+        <script src="{{ url_for('static', filename='sign.js') }}"></script>
+    </head>
+<body>
+    <form action="{{ url_for('sign') }}" id="signform" class="form" method="POST">
+        <div class="form-group">
+            <label for="displayname">display name:</label>
+            <input autocomplete="off" autofocus class="form-control" id="displayname" name="displayname" placeholder="type your display name" type="text">
+        </div>
+        
+        <div>
+            <button id="sign" type="submit">Sign Up</button>
+        </div>
+    </form>
+
+    <h1>your display name is:</h1>
+    <h1 id="name"></h1>
+</body>

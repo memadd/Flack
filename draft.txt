@@ -1,0 +1,68 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+    if (!localStorage.getItem('name'))
+        {localStorage.setItem('name', null);}
+
+    document.querySelector('#name').innerHTML = localStorage.getItem('name');    
+
+    const myform = document.getElementById("myform");
+    myform.addEventListener("submit", (e) =>{
+        e.preventDefault();
+        let name = document.getElementById('displayname').value;
+        localStorage.setItem('name', name);    
+        document.querySelector('#name').innerHTML = name;
+    });
+
+    // Connect to websocket
+    var socket = io.connect( 'http://127.0.0.1:5000/')
+
+    
+    socket.on('connect', () => {
+
+        
+        document.getElementById("channelform").addEventListener("submit", (e) => {
+                e.preventDefault()
+                const channelName = document.getElementById('channelname').value;
+                socket.emit('create channel',{channelName:channelName} );
+            
+        });
+    });
+
+    // When a new channel is created, add to the unordered list
+    socket.on('channel created', data => {
+        const li = document.createElement('li');
+        li.innerHTML = `Channel Created: ${data['channels']}`;
+        document.getElementById("channels").append(li);
+    });
+});
+
+    
+
+-------------------------------------------------------------
+		python
+-------------------------------------------------------------
+
+
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
+
+app = Flask(__name__)
+app.config["SECRET_KEY"] = '11jhbhhfgv5kuy'
+socketio = SocketIO(app)
+
+data = {'channels':[]}
+@app.route("/", methods=["GET", "POST"])
+def index():
+    
+    return render_template('index.html', data=data) 
+
+@socketio.on("create channel")
+def channel(data):
+    print(str(data))
+    
+        
+    emit("cahnnel created", data, broadcast=True)
+    
+    
+if __name__ == '__main__':
+    socketio.run(app)    

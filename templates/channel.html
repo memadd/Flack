@@ -21,8 +21,10 @@
        }
     </style>
   </head>
+
   <body>
     <div>
+        <!-- older messages -->
         {% for name, msg in msgs %}
           <div class="msg_bbl"><b style="color: #000">{{name}}</b> {{msg}}</div>
           {% endfor %}
@@ -34,10 +36,11 @@
     </div>
 
     <div class="col-sm-4">
+      <!-- input message -->
         <form action="" id="msgform" class="form" method="POST">
             <div class="form-group">
                 <label for="message">Messgae</label>
-                <input type="text" class="message form-control" id="message" name="message" placeholder="message">
+                <input type="text" class="message form-control" id="message" name="message" placeholder="Type here....." autocomplete="off">
               </div>
               <button type="submit" class="btn btn-success">Send <span class="fas fa-paper-plane"></span></button>
         </form>

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '11jhbhhfgv5kuy'
@@ -69,9 +69,13 @@ def handle_my_custom_event(json):
 def my_last_channel(json):
     print(json['channel'])
     destination = json['channel']
-    #destination = "/{}".format(channel)
+    
     socketio.emit('redirect', destination ) 
       
-
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['channel'])
+    send({'msg':data['username']+" has left the "+ data['channel']+ " channel."}, channel=data['channel'])
+    
 if __name__ == '__main__':
     socketio.run(app)    

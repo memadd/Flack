@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect( 'http://127.0.0.1:5000/')
+    // add left channel to dom
+    socket.on('message', data => { 
+        if (typeof data.msg !== 'undefined'){
+            
+            let ro= `<div class="left">${data.msg}</div>`
+            var divv = document.getElementById("leftholder");
+            divv.innerHTML += ro + '\n';
+        }
+        console.log(data);
+    });
 
     socket.on('connect', () => {
         socket.emit( 'myevent', {
@@ -31,5 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
          
         
     });
+
+
+    document.querySelector('#leave').onclick= () => {
+        channel = document.querySelector('#channel').innerHTML;
+        
+        leaveChannel(channel);
+    };
+    const username = localStorage.getItem('name');
+    // leave room
+    function leaveChannel(channel) {
+        socket.emit('leave', {'username': username, 'channel': channel});
+
+    }
 });
 
